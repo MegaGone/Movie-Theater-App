@@ -1,5 +1,17 @@
 const { request, response } = require("express");
-const { newIndex, deleteElasticIndex } = require("../helpers/client");
+const { newIndex, deleteElasticIndex, getElasticIndex } = require("../helpers/client");
+
+const getIndexMapped = async (req = request, res = response) => {
+
+  const { name } = req.body;
+
+  await getElasticIndex(name)
+    .then(resp => res.status(200).json({resp}))
+    .catch(e => {
+      console.log(e);
+      return res.status(400).json({e})
+    })
+}
 
 const createIndex = async (req = request, res = response) => {
   const { name, bodies } = req.body;
@@ -28,5 +40,6 @@ const deleteIndex = async (req = request, res = response) => {
 
 module.exports = {
   createIndex,
-  deleteIndex
+  deleteIndex,
+  getIndexMapped
 };

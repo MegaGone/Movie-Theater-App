@@ -46,8 +46,31 @@ const deleteElasticIndex = async (name) => {
   })
 }
 
+const getElasticIndex = async (name) => {
+
+  const temp = name.toLowerCase();
+
+  return new Promise((resolve, reject) => {
+
+    client.indices.get({
+      index: temp
+    }, function(err, res, code) {
+
+      if(err){
+        reject(err);
+      }
+
+      resolve(res);
+
+    })
+
+  })
+
+}
+
 module.exports = {
   search,
   newIndex,
-  deleteElasticIndex
+  deleteElasticIndex,
+  getElasticIndex
 };

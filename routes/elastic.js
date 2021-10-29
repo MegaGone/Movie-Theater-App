@@ -5,12 +5,24 @@ const { check } = require("express-validator");
 const { validateSpaces } = require("../helpers/validations");
 
 // Controller
-const { createIndex, deleteIndex } = require("../controllers/elastic");
+const { createIndex, deleteIndex, getIndexMapped } = require("../controllers/elastic");
 
 // Middlewares
 const { validateFields } = require("../middlewares/validate-fields");
 
 const router = Router();
+
+/*
+** CREATE INDEX
+*/
+router.get('/index', 
+[
+    check('name', 'Index names required').not().isEmpty(),
+    check('name', 'Name must at least 4 characters').isLength({ min: 4}),
+    check('name').custom(validateSpaces),
+    validateFields
+]
+,getIndexMapped);
 
 /*
 ** CREATE INDEX
