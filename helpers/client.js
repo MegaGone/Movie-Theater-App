@@ -9,21 +9,23 @@ const search = (index, body) => {
   return client.search({ index, body });
 };
 
-const newIndex = (name, body) => {
-  return client.indices.create(
-    {
+const newIndex = async (name, body) => {
+  return new Promise((resolve, reject) => {
+
+    client.indices.create({
       index: name,
-      body,
-    },
-    function (err, res, code) {
-      if (!res) {
-          console.log(`${err}, ERR: ${code}`);
+      body
+    },function(error, resp, code){
+
+      if(error){
+        reject(err)
       }
 
-      console.log(res);
+      resolve(resp);
 
-    }
-  );
+    })
+
+  })
 };
 
 module.exports = {
