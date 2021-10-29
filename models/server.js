@@ -6,11 +6,12 @@ class Server {
     this.app = express();
     this.port = process.env.PORT;
     this.paths = {
-      cinemas: "/cinemas",
+      cinemas:  "/cinemas",
+      elastic:  "/elastic"
     };
 
-    this.routes();
     this.middlewares();
+    this.routes();
   }
 
   middlewares() {
@@ -19,7 +20,8 @@ class Server {
   }
 
   routes() {
-    this.app.use(this.paths.cinemas, require("../routes/cinemas"));
+    this.app.use(this.paths.cinemas,  require("../routes/cinemas"));
+    this.app.use(this.paths.elastic,  require("../routes/elastic"));
   }
 
   listen() {
