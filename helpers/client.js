@@ -18,7 +18,7 @@ const newIndex = async (name, body) => {
     },function(error, resp, code){
 
       if(error){
-        reject(err)
+        reject(error)
       }
 
       resolve(resp);
@@ -28,7 +28,26 @@ const newIndex = async (name, body) => {
   })
 };
 
+const deleteElasticIndex = async (name) => {
+
+  const temp = name.toLowerCase();
+
+  return new Promise((resolve, reject) => {
+
+    client.indices.delete({
+      index: temp
+    }, function(err, resp, code){
+      if(err) {
+        reject(err);
+      }
+      resolve(resp);
+    })
+
+  })
+}
+
 module.exports = {
   search,
   newIndex,
+  deleteElasticIndex
 };
